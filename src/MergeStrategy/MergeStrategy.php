@@ -1,10 +1,10 @@
 <?php
 
-namespace RecordMerge\MergeStrategy;
+namespace Consolidare\MergeStrategy;
 
-use RecordMerge\MergePatterns\MergePattern;
-use RecordMerge\MergePatterns\Right;
-use RecordMerge\RecordFields\RecordField;
+use Consolidare\MergePatterns\MergePattern;
+use Consolidare\MergePatterns\Right;
+use Consolidare\RecordFields\RecordField;
 
 class MergeStrategy
 {

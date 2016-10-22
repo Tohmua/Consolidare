@@ -1,8 +1,8 @@
 <?php
 
-namespace RecordMerge\Record\Exception;
+namespace Consolidare\Record\Exception;
 
-use RecordMerge\Record\Exception\RecordException;
+use Consolidare\Record\Exception\RecordException;
 
 class PropertyDoesNotExistException extends RecordException
 {

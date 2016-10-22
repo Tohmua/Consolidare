@@ -1,8 +1,8 @@
 <?php
 
-namespace RecordMerge\Mergable\Type;
+namespace Consolidare\Mergable\Type;
 
-use RecordMerge\Mergable\Mergable;
+use Consolidare\Mergable\Mergable;
 
 class MergableArray implements Mergable
 {

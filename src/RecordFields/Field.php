@@ -1,8 +1,8 @@
 <?php
 
-namespace RecordMerge\RecordFields;
+namespace Consolidare\RecordFields;
 
-use RecordMerge\RecordFields\RecordField;
+use Consolidare\RecordFields\RecordField;
 
 class Field implements RecordField
 {

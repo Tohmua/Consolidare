@@ -1,6 +1,6 @@
 <?php
 
-namespace RecordMerge\MergePatterns;
+namespace Consolidare\MergePatterns;
 
 interface MergePattern
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace RecordMerge\RecordFields;
+namespace Consolidare\RecordFields;
 
 interface RecordField
 {

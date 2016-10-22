@@ -1,14 +1,14 @@
 <?php
 
-namespace RecordMerge;
+namespace Consolidare;
 
-use RecordMerge\Mergable\Mergable;
-use RecordMerge\Mergable\MergableFactory;
-use RecordMerge\MergeStrategy\MergeStrategy;
-use RecordMerge\MergeStrategy\MissingMergeStrategyException;
-use RecordMerge\Record\RecordFactory;
+use Consolidare\Mergable\Mergable;
+use Consolidare\Mergable\MergableFactory;
+use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\MergeStrategy\MissingMergeStrategyException;
+use Consolidare\Record\RecordFactory;
 
-class RecordMerge
+class Merge
 {
     private $config = [];
     private $mergable = [];

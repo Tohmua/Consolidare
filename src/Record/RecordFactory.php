@@ -1,11 +1,11 @@
 <?php
 
-namespace RecordMerge\Record;
+namespace Consolidare\Record;
 
-use RecordMerge\Mergable\Mergable;
-use RecordMerge\MergeStrategy\MergeStrategy;
-use RecordMerge\Record\Record;
-use RecordMerge\Record\Records;
+use Consolidare\Mergable\Mergable;
+use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\Record\Record;
+use Consolidare\Record\Records;
 
 class RecordFactory
 {

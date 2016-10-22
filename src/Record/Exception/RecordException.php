@@ -1,10 +1,10 @@
 <?php
 
-namespace RecordMerge\Record\Exception;
+namespace Consolidare\Record\Exception;
 
-use RecordMerge\RecordMergeException;
+use Consolidare\MergeException;
 
-class RecordException extends RecordMergeException
+class RecordException extends MergeException
 {
 
 }

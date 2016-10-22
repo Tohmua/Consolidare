@@ -1,8 +1,8 @@
 <?php
 
-namespace RecordMerge\MergeStrategy;
+namespace Consolidare\MergeStrategy;
 
-use RecordMerge\MergeStrategy\MergeStrategyException;
+use Consolidare\MergeStrategy\MergeStrategyException;
 
 class MissingMergeStrategyException extends MergeStrategyException
 {

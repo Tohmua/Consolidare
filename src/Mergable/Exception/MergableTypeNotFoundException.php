@@ -1,8 +1,8 @@
 <?php
 
-namespace RecordMerge\Mergable\Exception;
+namespace Consolidare\Mergable\Exception;
 
-use RecordMerge\Mergable\Exception\MergableException;
+use Consolidare\Mergable\Exception\MergableException;
 
 class MergableTypeNotFoundException extends MergableException
 {

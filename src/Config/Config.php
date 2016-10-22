@@ -1,6 +1,6 @@
 <?php
 
-namespace RecordMerge\Config;
+namespace Consolidare\Config;
 
 class Config
 {

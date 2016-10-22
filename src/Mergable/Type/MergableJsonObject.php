@@ -1,9 +1,8 @@
 <?php
 
-namespace RecordMerge\Mergable\Type;
+namespace Consolidare\Mergable\Type;
 
-use RecordMerge\Mergable\Mergable;
-
+use Consolidare\Mergable\Mergable;
 use stdClass;
 
 class MergableJsonObject implements Mergable

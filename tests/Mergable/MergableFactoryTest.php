@@ -1,11 +1,11 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use RecordMerge\Mergable\Exception\MergableException;
-use RecordMerge\Mergable\Exception\MergableTypeNotFoundException;
-use RecordMerge\Mergable\MergableFactory;
-use RecordMerge\Mergable\Type\MergableArray;
-use RecordMerge\Mergable\Type\MergableJsonObject;
+use Consolidare\Mergable\Exception\MergableException;
+use Consolidare\Mergable\Exception\MergableTypeNotFoundException;
+use Consolidare\Mergable\MergableFactory;
+use Consolidare\Mergable\Type\MergableArray;
+use Consolidare\Mergable\Type\MergableJsonObject;
 
 class MergableFactoryTest extends TestCase
 {

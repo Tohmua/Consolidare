@@ -1,10 +1,10 @@
 <?php
 
-namespace RecordMerge\Mergable;
+namespace Consolidare\Mergable;
 
-use RecordMerge\Mergable\Exception\MergableTypeNotFoundException;
-use RecordMerge\Mergable\Type\MergableArray;
-use RecordMerge\Mergable\Type\MergableJsonObject;
+use Consolidare\Mergable\Exception\MergableTypeNotFoundException;
+use Consolidare\Mergable\Type\MergableArray;
+use Consolidare\Mergable\Type\MergableJsonObject;
 
 class MergableFactory
 {

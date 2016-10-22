@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use RecordMerge\Config\Config;
+use Consolidare\Config\Config;
 
 class ConfigTest extends TestCase
 {

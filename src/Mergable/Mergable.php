@@ -1,6 +1,6 @@
 <?php
 
-namespace RecordMerge\Mergable;
+namespace Consolidare\Mergable;
 
 interface Mergable
 {

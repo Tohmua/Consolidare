@@ -1,9 +1,9 @@
 <?php
 
-namespace RecordMerge\Mergable\Exception;
+namespace Consolidare\Mergable\Exception;
 
-use RecordMerge\RecordMergeException;
+use Consolidare\MergeException;
 
-class MergableException extends RecordMergeException
+class MergableException extends MergeException
 {
 }

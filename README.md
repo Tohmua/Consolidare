@@ -6,7 +6,7 @@ This tool tries to make merging multiple "things" of any type easy and automated
 
 ### Use
 ```PHP
-$merge = new RecordMerge\RecordMerge();
+$merge = new Consolidare\Merge();
 
 $merge->addData('{"id": 10}');
 $merge->addData(['name' => 'foo', 'email' => 'bar']);
@@ -19,7 +19,7 @@ $result->retrieve(); // ['id' => 10, 'name' => 'foo', 'email' => 'test@test.com'
 
 ### Revert Merge
 ```PHP
-$merge = new RecordMerge\RecordMerge();
+$merge = new Consolidare\Merge();
 
 $merge->addData('{"id": 10}');
 $merge->addData(['name' => 'foo', 'email' => 'bar']);
@@ -39,13 +39,13 @@ However this can be over written by specifying a custom merge strategy.
 This is added in as an optional parameter when calling `merge()`
 
 ```PHP
-$merge = new RecordMerge\RecordMerge();
+$merge = new Consolidare\Merge();
 
 $merge->addData(['name' => 'Fr']);
 $merge->addData(['name' => 'ank']);
 
-$mergeStrategy = new RecordMerge\MergeStrategy\MergeStrategy(
-    new RecordMerge\MergePatterns\Add
+$mergeStrategy = new Consolidare\MergeStrategy\MergeStrategy(
+    new Consolidare\MergePatterns\Add
 );
 
 $result = $merge->merge($mergeStrategy);
@@ -55,12 +55,12 @@ $result->retrieve(); // ['name' => 'Frank']
 ### Types Of Merge Patterns
 Any merge pattern can be passed into a `MergeStrategy` there are some provided:
 
-- `RecordMerge\MergePatterns\Add` Adds the values together
-- `RecordMerge\MergePatterns\Concat` Concatenates the values together
-- `RecordMerge\MergePatterns\Left` Uses the first value supplied for a field
-- (default) `RecordMerge\MergePatterns\Right` Uses the last value supplied for a field
+- `Consolidare\MergePatterns\Add` Adds the values together
+- `Consolidare\MergePatterns\Concat` Concatenates the values together
+- `Consolidare\MergePatterns\Left` Uses the first value supplied for a field
+- (default) `Consolidare\MergePatterns\Right` Uses the last value supplied for a field
 
-However you can make your own by implementing the `RecordMerge\MergePatterns\MergePattern` interface.
+However you can make your own by implementing the `Consolidare\MergePatterns\MergePattern` interface.
 
 ### Field Specific Merge Strategies
 Some times you might want to have different merge patterns for different fields. e.g. the Age field you want to add, the name you want to keep the newest value and everything else you want to keep the original.
@@ -68,7 +68,7 @@ Some times you might want to have different merge patterns for different fields.
 For this to work you need to specify a filed and the specific merge pattern you would like to apply to it.
 
 ```PHP
-$merge = new RecordMerge\RecordMerge();
+$merge = new Consolidare\Merge();
 
 $merge->addData([
     'age' => 20,
@@ -81,20 +81,25 @@ $merge->addData([
     'address' => '1235 Longhall, Northumberland'
 ]);
 
-$mergeStrategy = new RecordMerge\MergeStrategy\MergeStrategy(
-    new RecordMerge\MergePatterns\Left
+$mergeStrategy = new Consolidare\MergeStrategy\MergeStrategy(
+    new Consolidare\MergePatterns\Left
 );
 
 $mergeStrategy->specific(
-    new RecordMerge\RecordFields\Field('age'),
-    new RecordMerge\MergePatterns\Add()
+    new Consolidare\RecordFields\Field('age'),
+    new Consolidare\MergePatterns\Add()
 )->specific(
-    new RecordMerge\RecordFields\Field('name'),
-    new RecordMerge\MergePatterns\Right()
+    new Consolidare\RecordFields\Field('name'),
+    new Consolidare\MergePatterns\Right()
 );
 
 $result = $merge->merge($mergeStrategy);
 $result->retrieve(); // ['age' => 50, 'name' => 'Barbra', 'address' => '1234 Longhall, Northumberland']
 ```
 
-It is recommended that you either extend the `RecordMerge\RecordFields\Field` class or implement the `RecordMerge\RecordFields\RecordField` interface to better name your field objects.
+It is recommended that you either extend the `Consolidare\RecordFields\Field` class or implement the `Consolidare\RecordFields\RecordField` interface to better name your field objects.
+
+### Tests
+To run: `composer test`
+
+The code coverage report can be found in `tests/_output` however this is git ignored but it will be generated automatically for you when you run the test suite.

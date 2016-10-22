@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use RecordMerge\Mergable\Type\MergableArray;
+use Consolidare\Mergable\Type\MergableArray;
 
 class MergableArrayTest extends TestCase
 {
@@ -9,6 +9,6 @@ class MergableArrayTest extends TestCase
     {
         $mergableArray = new MergableArray(['foo' => 'foo', 'bar' => 'bar']);
         $this->assertTrue();
-        $mergableArray
+        // $mergableArray
     }
 }

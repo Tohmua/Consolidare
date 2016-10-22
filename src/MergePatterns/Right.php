@@ -1,8 +1,8 @@
 <?php
 
-namespace RecordMerge\MergePatterns;
+namespace Consolidare\MergePatterns;
 
-use RecordMerge\MergePatterns\MergePattern;
+use Consolidare\MergePatterns\MergePattern;
 
 class Right implements MergePattern
 {

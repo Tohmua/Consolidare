@@ -1,6 +1,6 @@
 <?php
 
-namespace RecordMerge\Record;
+namespace Consolidare\Record;
 
 interface Records
 {

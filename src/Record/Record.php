@@ -1,15 +1,15 @@
 <?php
 
-namespace RecordMerge\Record;
+namespace Consolidare\Record;
 
-use RecordMerge\Mergable\Mergable;
-use RecordMerge\MergeStrategy\MergeStrategy;
-use RecordMerge\Record\Exception\CantRevertBackFurtherException;
-use RecordMerge\Record\Exception\NoPreviousRecordException;
-use RecordMerge\Record\Exception\PropertyDoesNotExistException;
-use RecordMerge\Record\Exception\RecordException;
-use RecordMerge\Record\Record;
-use RecordMerge\Record\Records;
+use Consolidare\Mergable\Mergable;
+use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\Record\Exception\CantRevertBackFurtherException;
+use Consolidare\Record\Exception\NoPreviousRecordException;
+use Consolidare\Record\Exception\PropertyDoesNotExistException;
+use Consolidare\Record\Exception\RecordException;
+use Consolidare\Record\Record;
+use Consolidare\Record\Records;
 
 class Record implements Records
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace RecordMerge\Record;
+namespace Consolidare\Record;
 
-use RecordMerge\Record\Exception\CantRevertBackFurtherException;
-use RecordMerge\Record\Exception\PropertyDoesNotExistException;
+use Consolidare\Record\Exception\CantRevertBackFurtherException;
+use Consolidare\Record\Exception\PropertyDoesNotExistException;
 
 class BlankRecord implements Records
 {
