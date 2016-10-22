@@ -8,7 +8,15 @@ class MergableArrayTest extends TestCase
     public function testConstructor()
     {
         $mergableArray = new MergableArray(['foo' => 'foo', 'bar' => 'bar']);
-        $this->assertTrue();
-        // $mergableArray
+        $this->assertTrue(get_class($mergableArray) === MergableArray::class);
+    }
+
+    public function testDataCanBeRetrieved()
+    {
+        $mergableArray = new MergableArray(['foo' => 'foo', 'bar' => 'bar']);
+        $this->assertEquals(
+            ['foo' => 'foo', 'bar' => 'bar'],
+            $mergableArray->retrieve()
+        );
     }
 }
