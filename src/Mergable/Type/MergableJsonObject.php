@@ -2,15 +2,21 @@
 
 namespace Consolidare\Mergable\Type;
 
+use Consolidare\Mergable\Exception\InvalidJsonGivenException;
 use Consolidare\Mergable\Mergable;
-use stdClass;
 
 class MergableJsonObject implements Mergable
 {
     private $data = [];
 
-    public function __construct(stdClass $data)
+    public function __construct(string $data)
     {
+        $data = json_decode($data);
+
+        if (!$data) {
+            throw new InvalidJsonGivenException($data);
+        }
+
         foreach ($data as $property => $value) {
             $this->data[$property] = $value;
         }

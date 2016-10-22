@@ -15,7 +15,7 @@ class MergableFactory
         }
 
         if ($decodedJson = json_decode($input)) {
-            return new MergableJsonObject($decodedJson);
+            return new MergableJsonObject($input);
         }
 
         throw new MergableTypeNotFoundException($input);
