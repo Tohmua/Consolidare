@@ -5,7 +5,8 @@ namespace RecordMerge;
 use RecordMerge\Mergable\Mergable;
 use RecordMerge\Mergable\MergableFactory;
 use RecordMerge\MergeStrategy\MergeStrategy;
-use RecordMerge\Record\Record;
+use RecordMerge\MergeStrategy\MissingMergeStrategyException;
+use RecordMerge\Record\RecordFactory;
 
 class RecordMerge
 {
@@ -29,20 +30,17 @@ class RecordMerge
         return $this;
     }
 
-    public function addMergeStrategy(MergeStrategy $strategy)
+    public function merge(MergeStrategy $strategy = NULL)
     {
-        $this->strategy = $strategy;
+        if (!$strategy) {
+            $strategy = new MergeStrategy();
+        }
 
-        return $this;
-    }
-
-    public function merge()
-    {
         $record = NULL;
 
         foreach ($this->mergable as $data) {
-            $record = new Record(
-                $this->strategy,
+            $record = RecordFactory::create(
+                $strategy,
                 $record,
                 $data
             );

@@ -3,13 +3,17 @@
 namespace RecordMerge\Record;
 
 use RecordMerge\Mergable\Mergable;
-use RecordMerge\Record\InvalidRecordArgumentException;
+use RecordMerge\MergeStrategy\MergeStrategy;
 use RecordMerge\Record\Record;
+use RecordMerge\Record\Records;
 
 class RecordFactory
 {
-    public static function fromMergable(Mergable $mergable)
+    public static function create(MergeStrategy $strategy, Records $previousRecord = NULL, Mergable $mergable)
     {
-        return new Record($mergable->get());
+        if (!$previousRecord) {
+            $previousRecord = new BlankRecord();
+        }
+        return new Record($strategy, $previousRecord, $mergable);
     }
 }

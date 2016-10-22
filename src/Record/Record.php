@@ -9,13 +9,14 @@ use RecordMerge\Record\Exception\NoPreviousRecordException;
 use RecordMerge\Record\Exception\PropertyDoesNotExistException;
 use RecordMerge\Record\Exception\RecordException;
 use RecordMerge\Record\Record;
+use RecordMerge\Record\Records;
 
 class Record implements Records
 {
     private $properties = [];
     private $previousRecord;
 
-    public function __construct(MergeStrategy $strategy, Record $previousRecord = NULL, Mergable $mergable)
+    public function __construct(MergeStrategy $strategy, Records $previousRecord, Mergable $mergable)
     {
         if ($previousRecord) {
             $this->previousRecord = $previousRecord;
@@ -48,12 +49,12 @@ class Record implements Records
         return $this->previousRecord;
     }
 
-    private function loadPreviousRecord(Record $previousRecord)
+    private function loadPreviousRecord(Records $previousRecord)
     {
         $this->properties = $previousRecord->retrieve();
     }
 
-    private function merge(MergeStrategy $strategy, Record $previousRecord = NULL, Mergable $mergable)
+    private function merge(MergeStrategy $strategy, Records $previousRecord, Mergable $mergable)
     {
         foreach ($mergable->retrieve() as $property => $value) {
             try {

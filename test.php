@@ -5,15 +5,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 try {
     $merge = new RecordMerge\RecordMerge(RecordMerge\Config\Config::loadConfig());
 
-    $mergeStrategy = new RecordMerge\MergeStrategy\MergeStrategy();
-    $mergeStrategy->specific(
-        new RecordMerge\RecordFields\Field('id'),
-        new RecordMerge\MergePatterns\Add()
-    )->specific(
-        new RecordMerge\RecordFields\Field('name'),
-        new RecordMerge\MergePatterns\Concat()
-    );
-
     $merge->addData([
             'id'    => 10,
             'name'  => 'foo1',
@@ -28,14 +19,22 @@ try {
             'name'  => 'foo3',
             'email' => 'bar3',
             'cow'   => 'phil',
-        ]))->addMergeStrategy($mergeStrategy);
+        ]));
 } catch (Exception $e) {
     echo $e->getMessage();
     exit();
 }
 
 try {
-    $newRecord = $merge->merge();
+    $mergeStrategy = new RecordMerge\MergeStrategy\MergeStrategy();
+    $mergeStrategy->specific(
+        new RecordMerge\RecordFields\Field('id'),
+        new RecordMerge\MergePatterns\Add()
+    )->specific(
+        new RecordMerge\RecordFields\Field('name'),
+        new RecordMerge\MergePatterns\Concat()
+    );
+    $newRecord = $merge->merge($mergeStrategy);
     var_dump($newRecord->retrieve());
 } catch (RecordMerge\Record\Exception\RecordException $e) {
     echo 'ERROR: ' . $e->getMessage() . PHP_EOL;

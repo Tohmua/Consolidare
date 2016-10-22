@@ -2,9 +2,9 @@
 
 namespace RecordMerge\Record\Exception;
 
-use Exception;
+use RecordMerge\RecordMergeException;
 
-class RecordException extends Exception
+class RecordException extends RecordMergeException
 {
 
 }
