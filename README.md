@@ -1,5 +1,5 @@
 # Consolidare
-This tool tries to make merging two "things" of any type easy and automated in an (hopefully) less opinionated fashion.
+This tool tries to make merging multiple "things" of any type easy and automated in an (hopefully) less opinionated fashion.
 
 ### Install
 `composer require Tohmua/Consolidare`
