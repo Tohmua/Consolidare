@@ -5,7 +5,6 @@ namespace Consolidare;
 use Consolidare\Mergable\Mergable;
 use Consolidare\Mergable\MergableFactory;
 use Consolidare\MergeStrategy\MergeStrategy;
-use Consolidare\MergeStrategy\MissingMergeStrategyException;
 use Consolidare\Record\RecordFactory;
 
 class Merge
