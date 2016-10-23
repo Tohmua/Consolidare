@@ -16,16 +16,19 @@ class ConcatTest extends TestCase
 
     public function testItConcatsStrings()
     {
-        $this->assertEquals("FooBar", (new Concat)("Foo", "Bar"));
+        $concat = new Concat;
+        $this->assertEquals("FooBar", $concat("Foo", "Bar"));
     }
 
     public function testItConcatsIntegers()
     {
-        $this->assertEquals("1020", (new Concat)(10, 20));
+        $concat = new Concat;
+        $this->assertEquals("1020", $concat(10, 20));
     }
 
     public function testItConcatsFloats()
     {
-        $this->assertEquals("10.520.3", (new Concat)(10.5, 20.3));
+        $concat = new Concat;
+        $this->assertEquals("10.520.3", $concat(10.5, 20.3));
     }
 }

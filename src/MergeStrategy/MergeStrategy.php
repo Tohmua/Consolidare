@@ -18,10 +18,10 @@ class MergeStrategy
             $pattern = new Right();
         }
 
-        $this->default($pattern);
+        $this->defaultPattern($pattern);
     }
 
-    public function default(MergePattern $pattern)
+    public function defaultPattern(MergePattern $pattern)
     {
         $this->default = $pattern;
 
@@ -38,9 +38,11 @@ class MergeStrategy
     public function merge($field, $left, $right)
     {
         if (isset($this->specific[$field])) {
-            return ($this->specific[$field])($left, $right);
+            $mergePattern = $this->specific[$field];
+            return $mergePattern($left, $right);
         }
 
-        return ($this->default)($left, $right);
+        $mergePattern = $this->default;
+        return $mergePattern($left, $right);
     }
 }

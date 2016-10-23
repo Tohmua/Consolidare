@@ -16,6 +16,7 @@ class RightTest extends TestCase
 
     public function testItReturnsRightValue()
     {
-        $this->assertEquals("Bar", (new Right)("Foo", "Bar"));
+        $right = new Right;
+        $this->assertEquals("Bar", $right("Foo", "Bar"));
     }
 }

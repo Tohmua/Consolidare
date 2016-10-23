@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Tohmua/Consolidare.svg?branch=master)](https://travis-ci.org/Tohmua/Consolidare)
+
 # Consolidare
 This tool tries to make merging multiple "things" of any type easy and automated in an (hopefully) less opinionated fashion.
 

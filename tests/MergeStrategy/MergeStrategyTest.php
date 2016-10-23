@@ -52,7 +52,7 @@ class MergeStrategyTest extends TestCase
         $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
 
         $mergeStrategy = new MergeStrategy;
-        $mergeStrategy->default($mergePattern->reveal());
+        $mergeStrategy->defaultPattern($mergePattern->reveal());
 
         $this->assertTrue(
             $mergeStrategy->merge('x', 'foo', 'bar') === 'phil'

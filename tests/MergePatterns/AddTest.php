@@ -17,29 +17,34 @@ class AddTest extends TestCase
 
     public function testItAdds()
     {
-        $this->assertEquals(10, (new Add)(4, 6));
+        $add = new Add;
+        $this->assertEquals(10, $add(4, 6));
     }
 
     public function testItAddsNumericStrings()
     {
-        $this->assertEquals(26, (new Add)('7', "19"));
+        $add = new Add;
+        $this->assertEquals(26, $add('7', "19"));
     }
 
     public function testItCantAddStrings()
     {
         $this->setExpectedException(CantAddNonNumericsException::class);
-        (new Add)('phil', "jess");
+        $add = new Add;
+        $add('phil', "jess");
     }
 
     public function testItCantAddWithLeftStringValue()
     {
         $this->setExpectedException(CantAddNonNumericsException::class);
-        (new Add)('phil', 10);
+        $add = new Add;
+        $add('phil', 10);
     }
 
     public function testItCantAddWithRightStringValue()
     {
         $this->setExpectedException(CantAddNonNumericsException::class);
-        (new Add)(10, 'jess');
+        $add = new Add;
+        $add(10, 'jess');
     }
 }

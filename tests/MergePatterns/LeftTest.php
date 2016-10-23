@@ -16,6 +16,7 @@ class LeftTest extends TestCase
 
     public function testItReturnsLeftValue()
     {
-        $this->assertEquals("Foo", (new Left)("Foo", "Bar"));
+        $left = new Left;
+        $this->assertEquals("Foo", $left("Foo", "Bar"));
     }
 }
