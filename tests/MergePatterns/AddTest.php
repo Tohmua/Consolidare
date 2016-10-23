@@ -28,18 +28,18 @@ class AddTest extends TestCase
     public function testItCantAddStrings()
     {
         $this->setExpectedException(CantAddNonNumericsException::class);
-        $this->assertEquals(26, (new Add)('phil', "jess"));
+        (new Add)('phil', "jess");
     }
 
     public function testItCantAddWithLeftStringValue()
     {
         $this->setExpectedException(CantAddNonNumericsException::class);
-        $this->assertEquals(26, (new Add)('phil', 10));
+        (new Add)('phil', 10);
     }
 
     public function testItCantAddWithRightStringValue()
     {
         $this->setExpectedException(CantAddNonNumericsException::class);
-        $this->assertEquals(26, (new Add)(10, 'jess'));
+        (new Add)(10, 'jess');
     }
 }
