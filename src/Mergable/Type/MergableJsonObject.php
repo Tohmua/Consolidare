@@ -9,7 +9,7 @@ class MergableJsonObject implements Mergable
 {
     private $data = [];
 
-    public function __construct(string $data)
+    public function __construct($data)
     {
         $data = json_decode($data);
 
