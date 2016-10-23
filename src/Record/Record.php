@@ -18,11 +18,7 @@ class Record implements Records
 
     public function __construct(MergeStrategy $strategy, Records $previousRecord, Mergable $mergable)
     {
-        if ($previousRecord) {
-            $this->previousRecord = $previousRecord;
-            $this->loadPreviousRecord($previousRecord);
-        }
-
+        $this->loadPreviousRecord($previousRecord);
         $this->merge($strategy, $previousRecord, $mergable);
     }
 
@@ -42,15 +38,12 @@ class Record implements Records
 
     public function revert()
     {
-        if (!$this->previousRecord) {
-            throw new CantRevertBackFurtherException();
-        }
-
         return $this->previousRecord;
     }
 
     private function loadPreviousRecord(Records $previousRecord)
     {
+        $this->previousRecord = $previousRecord;
         $this->properties = $previousRecord->retrieve();
     }
 
@@ -58,10 +51,6 @@ class Record implements Records
     {
         foreach ($mergable->retrieve() as $property => $value) {
             try {
-                if (!$previousRecord) {
-                    throw new NoPreviousRecordException();
-                }
-
                 $this->properties[$property] = $strategy->merge(
                     $property,
                     $previousRecord->property($property),
