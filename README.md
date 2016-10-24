@@ -4,7 +4,7 @@
 This tool tries to make merging multiple "things" of any type easy and automated in an (hopefully) less opinionated fashion.
 
 ### Install
-`composer require Tohmua/Consolidare`
+`composer require tohmua/consolidare`
 
 ### Use
 ```PHP
