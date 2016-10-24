@@ -1,5 +1,5 @@
 {
-    "name": "Tohmua/Consolidare",
+    "name": "tohmua/consolidare",
     "description": "Consolidare merge tool",
     "prefer-stable": true,
     "require": {
