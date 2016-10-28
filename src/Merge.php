@@ -11,12 +11,12 @@ class Merge
 {
     private $mergeable = [];
 
-    public function addData($input)
+    public function data($input)
     {
-        return $this->addMergeable(MergeableFactory::create($input));
+        return $this->mergeable(MergeableFactory::create($input));
     }
 
-    public function addMergeable(Mergeable $data)
+    public function mergeable(Mergeable $data)
     {
         $this->mergeable[] = $data;
 
