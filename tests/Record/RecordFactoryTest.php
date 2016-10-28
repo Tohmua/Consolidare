@@ -1,6 +1,6 @@
 <?php
 
-use Consolidare\Mergable\Mergable;
+use Consolidare\Mergeable\Mergeable;
 use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\Record\Record;
 use Consolidare\Record\RecordFactory;
@@ -14,14 +14,14 @@ class RecordFactoryTest extends TestCase
     {
         $prophet = new Prophet;
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn([]);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn([]);
 
         $this->assertEquals(
             get_class(RecordFactory::create(
                 $mergeStrategy->reveal(),
                 NULL,
-                $mergable->reveal()
+                $mergeable->reveal()
             )),
             Record::class
         );
@@ -32,14 +32,14 @@ class RecordFactoryTest extends TestCase
         $prophet = new Prophet;
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
         $record = $prophet->prophesize(Records::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn([]);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn([]);
 
         $this->assertEquals(
             get_class(RecordFactory::create(
                 $mergeStrategy->reveal(),
                 $record->reveal(),
-                $mergable->reveal()
+                $mergeable->reveal()
             )),
             Record::class
         );

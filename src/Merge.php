@@ -2,15 +2,15 @@
 
 namespace Consolidare;
 
-use Consolidare\Mergable\Mergable;
-use Consolidare\Mergable\MergableFactory;
+use Consolidare\Mergeable\Mergeable;
+use Consolidare\Mergeable\MergeableFactory;
 use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\Record\RecordFactory;
 
 class Merge
 {
     private $config = [];
-    private $mergable = [];
+    private $mergeable = [];
 
     public function __construct(array $config)
     {
@@ -19,12 +19,12 @@ class Merge
 
     public function addData($input)
     {
-        return $this->addMergable(MergableFactory::create($input));
+        return $this->addMergeable(MergeableFactory::create($input));
     }
 
-    public function addMergable(Mergable $data)
+    public function addMergeable(Mergeable $data)
     {
-        $this->mergable[] = $data;
+        $this->mergeable[] = $data;
 
         return $this;
     }
@@ -37,7 +37,7 @@ class Merge
 
         $record = NULL;
 
-        foreach ($this->mergable as $data) {
+        foreach ($this->mergeable as $data) {
             $record = RecordFactory::create(
                 $strategy,
                 $record,

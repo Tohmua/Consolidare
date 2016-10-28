@@ -1,6 +1,6 @@
 <?php
 
-use Consolidare\Mergable\Mergable;
+use Consolidare\Mergeable\Mergeable;
 use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\Record\Exception\PropertyDoesNotExistException;
 use Consolidare\Record\Record;
@@ -15,14 +15,14 @@ class RecordTest extends TestCase
         $prophet = new Prophet;
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
         $record = $prophet->prophesize(Records::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn([]);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn([]);
 
         $this->assertEquals(
             get_class(new Record(
                 $mergeStrategy->reveal(),
                 $record->reveal(),
-                $mergable->reveal()
+                $mergeable->reveal()
             )),
             Record::class
         );
@@ -33,15 +33,15 @@ class RecordTest extends TestCase
         $prophet = new Prophet;
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
         $record = $prophet->prophesize(Records::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn([]);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn([]);
 
         $this->assertTrue(in_array(
             Records::class,
             class_implements(new Record(
                 $mergeStrategy->reveal(),
                 $record->reveal(),
-                $mergable->reveal()
+                $mergeable->reveal()
             ))
         ));
     }
@@ -52,10 +52,10 @@ class RecordTest extends TestCase
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn([]);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn([]);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn([]);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
 
         $this->assertEquals(
             [],
@@ -69,10 +69,10 @@ class RecordTest extends TestCase
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn(['foo']);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn([]);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn([]);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
 
         $this->assertEquals(
             ['foo'],
@@ -80,17 +80,17 @@ class RecordTest extends TestCase
         );
     }
 
-    public function testItsPropertiesCanBeRetrievedWithDataInMergable()
+    public function testItsPropertiesCanBeRetrievedWithDataInMergeable()
     {
         $prophet = new Prophet;
         $mergeStrategy = $prophet->prophesize(MergeStrategy::class);
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn([]);
         $record->property(0)->willThrow(PropertyDoesNotExistException::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn(['bar']);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn(['bar']);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
 
         $this->assertEquals(
             ['bar'],
@@ -105,10 +105,10 @@ class RecordTest extends TestCase
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn(['foo' => 'foo']);
         $record->property('bar')->willThrow(PropertyDoesNotExistException::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn(['bar' => 'bar']);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn(['bar' => 'bar']);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
 
         $this->assertEquals(
             ['foo' => 'foo', 'bar' => 'bar'],
@@ -123,10 +123,10 @@ class RecordTest extends TestCase
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn(['foo' => 'foo']);
         $record->property('bar')->willThrow(PropertyDoesNotExistException::class);
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn(['bar' => 'bar']);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn(['bar' => 'bar']);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
 
         $this->assertEquals(
             'foo',
@@ -142,10 +142,10 @@ class RecordTest extends TestCase
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn(['foo' => 'foo']);
         $record->property('bar')->willReturn('bar');
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn(['bar' => 'bar']);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn(['bar' => 'bar']);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
 
         $this->assertEquals(
             'sheep',
@@ -161,10 +161,10 @@ class RecordTest extends TestCase
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn(['foo' => 'foo']);
         $record->property('bar')->willReturn('bar');
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn(['bar' => 'bar']);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn(['bar' => 'bar']);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
         $revert = $record->revert();
 
         $this->assertTrue(in_array(
@@ -181,10 +181,10 @@ class RecordTest extends TestCase
         $record = $prophet->prophesize(Records::class);
         $record->retrieve()->willReturn(['foo' => 'foo']);
         $record->property('bar')->willReturn('bar');
-        $mergable = $prophet->prophesize(Mergable::class);
-        $mergable->retrieve()->willReturn(['bar' => 'bar']);
+        $mergeable = $prophet->prophesize(Mergeable::class);
+        $mergeable->retrieve()->willReturn(['bar' => 'bar']);
 
-        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergable->reveal());
+        $record = new Record($mergeStrategy->reveal(), $record->reveal(), $mergeable->reveal());
         $revert = $record->revert();
 
         $this->assertEquals(
