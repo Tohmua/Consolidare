@@ -1,2 +1,0 @@
-# Log File Directory
-Logs files are written to this directory that comes form the default config files. It is recommended that you add your own config to log data to your own log files outside of the vendor directory.

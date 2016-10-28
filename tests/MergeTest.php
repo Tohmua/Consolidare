@@ -9,13 +9,13 @@ class MergeTest extends TestCase
 {
     public function testConstructor()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $this->assertTrue(get_class($Merge) === Merge::class);
     }
 
     public function testItReturnsNothingWhenGivenNoData()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $record = $Merge->merge();
 
         $this->assertNull($record);
@@ -23,7 +23,7 @@ class MergeTest extends TestCase
 
     public function testItReturnsARecordWhenGivenASingleValueFromArray()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $Merge->addData(['name' => 'foo', 'email' => 'foo']);
         $record = $Merge->merge();
 
@@ -32,7 +32,7 @@ class MergeTest extends TestCase
 
     public function testItMergesWhenGivenASingleValueFromArray()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $Merge->addData(['name' => 'foo', 'email' => 'foo']);
         $record = $Merge->merge();
 
@@ -41,7 +41,7 @@ class MergeTest extends TestCase
 
     public function testItMergesWhenGivenAMultipleValuesFromArray()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $Merge->addData(['name' => 'foo', 'email' => 'foo'])
                     ->addData(['name' => 'bar', 'email' => 'bar'])
                     ->addData(['name' => 'baz', 'email' => 'baz']);
@@ -52,7 +52,7 @@ class MergeTest extends TestCase
 
     public function testItKeepsAllValuesWhenGivenAMultipleValuesFromArray()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $Merge->addData(['name' => 'foo', 'email' => 'foo', 'surname' => 'foo'])
                     ->addData(['name' => 'bar'])
                     ->addData(['name' => 'baz', 'email' => 'baz', 'address' => 'baz']);
@@ -64,7 +64,7 @@ class MergeTest extends TestCase
 
     public function testItMergesWhenGivenAMultipleValuesFromMultipleDataTypes()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $Merge->addData(['name' => 'foo', 'email' => 'foo'])
                     ->addData('{"name": "bar", "address": "bar"}');
         $record = $Merge->merge();
@@ -75,7 +75,7 @@ class MergeTest extends TestCase
 
     public function testItKeepsRevertsAMerge()
     {
-        $Merge = new Merge([]);
+        $Merge = new Merge();
         $Merge->addData(['name' => 'foo', 'email' => 'foo', 'surname' => 'foo'])
                     ->addData(['name' => 'bar'])
                     ->addData(['name' => 'baz', 'email' => 'baz', 'address' => 'baz']);
