@@ -1,11 +1,11 @@
 <?php
 
-namespace Consolidare\Mergable\Type;
+namespace Consolidare\Mergeable\Type;
 
-use Consolidare\Mergable\Exception\InvalidJsonGivenException;
-use Consolidare\Mergable\Mergable;
+use Consolidare\Mergeable\Exception\InvalidJsonGivenException;
+use Consolidare\Mergeable\Mergeable;
 
-class MergableJsonObject implements Mergable
+class MergeableJsonObject implements Mergeable
 {
     private $data = [];
 

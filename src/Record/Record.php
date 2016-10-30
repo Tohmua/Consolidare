@@ -2,7 +2,7 @@
 
 namespace Consolidare\Record;
 
-use Consolidare\Mergable\Mergable;
+use Consolidare\Mergeable\Mergeable;
 use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\Record\Exception\CantRevertBackFurtherException;
 use Consolidare\Record\Exception\NoPreviousRecordException;
@@ -16,10 +16,10 @@ class Record implements Records
     private $properties = [];
     private $previousRecord;
 
-    public function __construct(MergeStrategy $strategy, Records $previousRecord, Mergable $mergable)
+    public function __construct(MergeStrategy $strategy, Records $previousRecord, Mergeable $mergeable)
     {
         $this->loadPreviousRecord($previousRecord);
-        $this->merge($strategy, $previousRecord, $mergable);
+        $this->merge($strategy, $previousRecord, $mergeable);
     }
 
     public function property($property)
@@ -47,9 +47,9 @@ class Record implements Records
         $this->properties = $previousRecord->retrieve();
     }
 
-    private function merge(MergeStrategy $strategy, Records $previousRecord, Mergable $mergable)
+    private function merge(MergeStrategy $strategy, Records $previousRecord, Mergeable $mergeable)
     {
-        foreach ($mergable->retrieve() as $property => $value) {
+        foreach ($mergeable->retrieve() as $property => $value) {
             try {
                 $this->properties[$property] = $strategy->merge(
                     $property,

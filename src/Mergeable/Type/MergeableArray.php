@@ -1,10 +1,10 @@
 <?php
 
-namespace Consolidare\Mergable\Type;
+namespace Consolidare\Mergeable\Type;
 
-use Consolidare\Mergable\Mergable;
+use Consolidare\Mergeable\Mergeable;
 
-class MergableArray implements Mergable
+class MergeableArray implements Mergeable
 {
     private $data = [];
 
