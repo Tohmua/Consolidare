@@ -1,6 +1,8 @@
 {
     "name": "tohmua/consolidare",
     "description": "Consolidare merge tool",
+    "keywords": ["merge", "merging", "merge tool", "record merging"],
+    "license": "MIT",
     "prefer-stable": true,
     "require": {
         "php": "^5.6 || ^7.0",
