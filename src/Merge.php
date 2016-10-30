@@ -9,13 +9,7 @@ use Consolidare\Record\RecordFactory;
 
 class Merge
 {
-    private $config = [];
     private $mergeable = [];
-
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-    }
 
     public function addData($input)
     {
