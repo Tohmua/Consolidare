@@ -10,9 +10,9 @@ This tool tries to make merging multiple "things" of any type easy and automated
 ```PHP
 $merge = new Consolidare\Merge();
 
-$merge->addData('{"id": 10}');
-$merge->addData(['name' => 'foo', 'email' => 'bar']);
-$merge->addData(['email' => 'test@test.com']);
+$merge->data('{"id": 10}');
+$merge->data(['name' => 'foo', 'email' => 'bar']);
+$merge->data(['email' => 'test@test.com']);
 
 $result = $merge->merge();
 
@@ -23,9 +23,9 @@ $result->retrieve(); // ['id' => 10, 'name' => 'foo', 'email' => 'test@test.com'
 ```PHP
 $merge = new Consolidare\Merge();
 
-$merge->addData('{"id": 10}');
-$merge->addData(['name' => 'foo', 'email' => 'bar']);
-$merge->addData(['email' => 'test@test.com']);
+$merge->data('{"id": 10}');
+$merge->data(['name' => 'foo', 'email' => 'bar']);
+$merge->data(['email' => 'test@test.com']);
 
 $result = $merge->merge();
 
@@ -43,8 +43,8 @@ This is added in as an optional parameter when calling `merge()`
 ```PHP
 $merge = new Consolidare\Merge();
 
-$merge->addData(['name' => 'Fr']);
-$merge->addData(['name' => 'ank']);
+$merge->data(['name' => 'Fr']);
+$merge->data(['name' => 'ank']);
 
 $mergeStrategy = new Consolidare\MergeStrategy\MergeStrategy(
     new Consolidare\MergePatterns\Add
@@ -72,12 +72,12 @@ For this to work you need to specify a filed and the specific merge pattern you 
 ```PHP
 $merge = new Consolidare\Merge();
 
-$merge->addData([
+$merge->data([
     'age' => 20,
     'name' => 'Jessica',
     'address' => '1234 Longhall, Northumberland'
 ]);
-$merge->addData([
+$merge->data([
     'age' => 30,
     'name' => 'Barbra',
     'address' => '1235 Longhall, Northumberland'
