@@ -4,11 +4,8 @@ namespace Consolidare\Record;
 
 use Consolidare\Mergeable\Mergeable;
 use Consolidare\MergeStrategy\MergeStrategy;
-use Consolidare\Record\Exception\CantRevertBackFurtherException;
-use Consolidare\Record\Exception\NoPreviousRecordException;
 use Consolidare\Record\Exception\PropertyDoesNotExistException;
 use Consolidare\Record\Exception\RecordException;
-use Consolidare\Record\Record;
 use Consolidare\Record\Records;
 
 class Record implements Records
