@@ -29,16 +29,12 @@ class Merge
             $strategy = new MergeStrategy();
         }
 
-        $record = NULL;
-
-        foreach ($this->mergeable as $data) {
-            $record = RecordFactory::create(
+        return array_reduce($this->mergeable, function ($record, $data) use ($strategy) {
+            return RecordFactory::create(
                 $strategy,
                 $record,
                 $data
             );
-        }
-
-        return $record;
+        });
     }
 }
