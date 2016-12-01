@@ -14,7 +14,7 @@ $merge->data('{"id": 10}');
 $merge->data(['name' => 'foo', 'email' => 'bar']);
 $merge->data(['email' => 'test@test.com']);
 
-$result = $merge->merge();
+$result = $merge->merge(Consolidare\MergeStrategy\MergeStrategyFactory::basic());
 
 $result->retrieve(); // ['id' => 10, 'name' => 'foo', 'email' => 'test@test.com']
 ```

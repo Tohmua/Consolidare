@@ -3,7 +3,6 @@
 namespace Consolidare\MergeStrategy;
 
 use Consolidare\MergePatterns\MergePattern;
-use Consolidare\MergePatterns\Right;
 use Consolidare\RecordFields\RecordField;
 
 class MergeStrategy
@@ -12,12 +11,8 @@ class MergeStrategy
     private $specific = [];
 
 
-    public function __construct(MergePattern $pattern = NULL)
+    public function __construct(MergePattern $pattern)
     {
-        if (!$pattern) {
-            $pattern = new Right();
-        }
-
         $this->defaultPattern($pattern);
     }
 
