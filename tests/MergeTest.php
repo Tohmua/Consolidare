@@ -1,9 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\Merge;
+use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\MergeStrategy\MergeStrategyFactory;
 use Consolidare\Record\Record;
+use PHPUnit\Framework\TestCase;
 
 class MergeTest extends TestCase
 {
@@ -16,7 +17,7 @@ class MergeTest extends TestCase
     public function testItReturnsNothingWhenGivenNoData()
     {
         $merge = new Merge([]);
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
 
         $this->assertNull($record);
     }
@@ -25,7 +26,7 @@ class MergeTest extends TestCase
     {
         $merge = new Merge([]);
         $merge->data(['name' => 'foo', 'email' => 'foo']);
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
 
         $this->assertTrue(get_class($record) === Record::class);
     }
@@ -34,7 +35,7 @@ class MergeTest extends TestCase
     {
         $merge = new Merge([]);
         $merge->data(['name' => 'foo', 'email' => 'foo']);
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
 
         $this->assertEquals(['name' => 'foo', 'email' => 'foo'], $record->retrieve());
     }
@@ -45,7 +46,7 @@ class MergeTest extends TestCase
         $merge->data(['name' => 'foo', 'email' => 'foo'])
               ->data(['name' => 'bar', 'email' => 'bar'])
               ->data(['name' => 'baz', 'email' => 'baz']);
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
 
         $this->assertEquals(['name' => 'baz', 'email' => 'baz'], $record->retrieve());
     }
@@ -56,7 +57,7 @@ class MergeTest extends TestCase
         $merge->data(['name' => 'foo', 'email' => 'foo', 'surname' => 'foo'])
               ->data(['name' => 'bar'])
               ->data(['name' => 'baz', 'email' => 'baz', 'address' => 'baz']);
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
 
         $this->assertEquals(['name' => 'baz', 'email' => 'baz', 'surname' => 'foo', 'address' => 'baz'], $record->retrieve());
     }
@@ -67,7 +68,7 @@ class MergeTest extends TestCase
         $merge = new Merge([]);
         $merge->data(['name' => 'foo', 'email' => 'foo'])
               ->data('{"name": "bar", "address": "bar"}');
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
 
         $this->assertEquals(['name' => 'bar', 'email' => 'foo', 'address' => 'bar'], $record->retrieve());
     }
@@ -79,7 +80,7 @@ class MergeTest extends TestCase
         $merge->data(['name' => 'foo', 'email' => 'foo', 'surname' => 'foo'])
               ->data(['name' => 'bar'])
               ->data(['name' => 'baz', 'email' => 'baz', 'address' => 'baz']);
-        $record = $merge->merge();
+        $record = $merge->merge(MergeStrategyFactory::basic());
         $record = $record->revert();
 
         $this->assertEquals(['name' => 'bar', 'email' => 'foo', 'surname' => 'foo'], $record->retrieve());

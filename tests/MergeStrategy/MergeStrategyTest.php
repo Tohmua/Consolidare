@@ -10,7 +10,9 @@ class MergeStrategyTest extends TestCase
 {
     public function testItConstructs()
     {
-        $mergeStrategy = new MergeStrategy;
+        $prophet = new Prophet();
+        $mergePattern = $prophet->prophesize(MergePattern::class);
+        $mergeStrategy = new MergeStrategy($mergePattern->reveal());
         $this->assertTrue(get_class($mergeStrategy) === MergeStrategy::class);
     }
 
@@ -24,7 +26,11 @@ class MergeStrategyTest extends TestCase
 
     public function testItFollowsDefaultPattern()
     {
-        $mergeStrategy = new MergeStrategy;
+        $prophet = new Prophet();
+        $mergePattern = $prophet->prophesize(MergePattern::class);
+        $mergePattern->__invoke('foo', 'bar')->willReturn('bar');
+
+        $mergeStrategy = new MergeStrategy($mergePattern->reveal());
         $this->assertTrue(
             $mergeStrategy->merge('x', 'foo', 'bar') === 'bar'
         );
@@ -48,11 +54,14 @@ class MergeStrategyTest extends TestCase
     {
         $prophet = new Prophet();
 
-        $mergePattern = $prophet->prophesize(MergePattern::class);
-        $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
+        $mergePatternOld = $prophet->prophesize(MergePattern::class);
+        $mergePatternOld->__invoke('foo', 'bar')->willReturn('Tom');
 
-        $mergeStrategy = new MergeStrategy;
-        $mergeStrategy->defaultPattern($mergePattern->reveal());
+        $mergePatternNew = $prophet->prophesize(MergePattern::class);
+        $mergePatternNew->__invoke('foo', 'bar')->willReturn('phil');
+
+        $mergeStrategy = new MergeStrategy($mergePatternOld->reveal());
+        $mergeStrategy->defaultPattern($mergePatternNew->reveal());
 
         $this->assertTrue(
             $mergeStrategy->merge('x', 'foo', 'bar') === 'phil'
@@ -63,13 +72,11 @@ class MergeStrategyTest extends TestCase
     {
         $prophet = new Prophet();
 
+        $defaultMergePattern = $prophet->prophesize(MergePattern::class);
         $mergePattern = $prophet->prophesize(MergePattern::class);
-        $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
-
         $recordField = $prophet->prophesize(RecordField::class);
-        $recordField->name()->willReturn('yyz');
 
-        $mergeStrategy = new MergeStrategy;
+        $mergeStrategy = new MergeStrategy($defaultMergePattern->reveal());
         $mergeStrategy->specific(
             $recordField->reveal(),
             $mergePattern->reveal()
@@ -82,13 +89,16 @@ class MergeStrategyTest extends TestCase
     {
         $prophet = new Prophet();
 
+        $defaultMergePattern = $prophet->prophesize(MergePattern::class);
+        $defaultMergePattern->__invoke('foo', 'bar')->willReturn('bar');
+
         $mergePattern = $prophet->prophesize(MergePattern::class);
         $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
 
         $recordField = $prophet->prophesize(RecordField::class);
         $recordField->name()->willReturn('yyz');
 
-        $mergeStrategy = new MergeStrategy;
+        $mergeStrategy = new MergeStrategy($defaultMergePattern->reveal());
         $mergeStrategy->specific(
             $recordField->reveal(),
             $mergePattern->reveal()
@@ -103,13 +113,15 @@ class MergeStrategyTest extends TestCase
     {
         $prophet = new Prophet();
 
+        $defaultMergePattern = $prophet->prophesize(MergePattern::class);
+
         $mergePattern = $prophet->prophesize(MergePattern::class);
         $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
 
         $recordField = $prophet->prophesize(RecordField::class);
         $recordField->name()->willReturn('yyz');
 
-        $mergeStrategy = new MergeStrategy;
+        $mergeStrategy = new MergeStrategy($defaultMergePattern->reveal());
         $mergeStrategy->specific(
             $recordField->reveal(),
             $mergePattern->reveal()
