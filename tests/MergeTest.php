@@ -5,6 +5,7 @@ use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\MergeStrategy\MergeStrategyFactory;
 use Consolidare\RecordFields\RecordField;
 use Consolidare\Record\Record;
+use Consolidare\ReturnType\Type\ToArray;
 use PHPUnit\Framework\TestCase;
 
 class MergeTest extends TestCase
@@ -149,5 +150,25 @@ class MergeTest extends TestCase
         $this->assertEquals('foo', $record['surname']->value());
         $this->assertTrue($record['surname'] instanceof RecordField);
         $this->assertEquals('surname', $record['surname']->name());
+    }
+
+    public function testItChangesTheReturnTypeWhenAsked()
+    {
+        $merge = new Merge([]);
+        $merge->data(['name' => 'foo', 'email' => 'foo', 'surname' => 'foo'])
+              ->data(['name' => 'bar'])
+              ->data(['email' => 'baz', 'address' => 'baz']);
+        $record = $merge->merge(MergeStrategyFactory::basic());
+
+        $this->assertEquals(4, count($record->retrieve()));
+
+        $array = $record->retrieve(new ToArray);
+
+        $this->assertEquals([
+            'name' => 'bar',
+            'email' => 'baz',
+            'surname' => 'foo',
+            'address' => 'baz',
+        ], $array);
     }
 }

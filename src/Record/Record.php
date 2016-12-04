@@ -9,6 +9,7 @@ use Consolidare\RecordFields\RecordField;
 use Consolidare\Record\Exception\PropertyDoesNotExistException;
 use Consolidare\Record\Exception\RecordException;
 use Consolidare\Record\Records;
+use Consolidare\ReturnType\ReturnType;
 
 class Record implements Records
 {
@@ -33,8 +34,12 @@ class Record implements Records
         return $this->fields[$field->name()];
     }
 
-    public function retrieve()
+    public function retrieve(ReturnType $returnType = NULL)
     {
+        if ($returnType) {
+            return $returnType($this);
+        }
+
         return $this->fields;
     }
 
