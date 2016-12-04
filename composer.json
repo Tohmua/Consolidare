@@ -18,7 +18,7 @@
     },
     "scripts": {
         "test": [
-            "vendor/bin/phpunit --coverage-html tests/_output --whitelist src tests"
+            "vendor/bin/phpunit --coverage-html='tests/_output' --coverage-text='php://stdout' --colors='auto' --whitelist src tests"
         ]
     }
 }
