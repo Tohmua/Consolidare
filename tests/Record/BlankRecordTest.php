@@ -1,10 +1,12 @@
 <?php
 
+use Consolidare\RecordFields\RecordField;
 use Consolidare\Record\BlankRecord;
 use Consolidare\Record\Exception\CantRevertBackFurtherException;
 use Consolidare\Record\Exception\PropertyDoesNotExistException;
 use Consolidare\Record\Records;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophet;
 
 class BlankRecordTest extends TestCase
 {
@@ -27,7 +29,12 @@ class BlankRecordTest extends TestCase
     public function testPropertyThrowsException()
     {
         $this->setExpectedException(PropertyDoesNotExistException::class);
-        (new BlankRecord)->property('foo');
+
+        $prophet = new Prophet;
+        $record = $prophet->prophesize(RecordField::class);
+        $record->name()->willReturn('foo');
+
+        (new BlankRecord)->field($record->reveal());
     }
 
     public function testRevertThrowsException()

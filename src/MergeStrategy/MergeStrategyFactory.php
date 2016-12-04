@@ -4,6 +4,7 @@ namespace Consolidare\MergeStrategy;
 
 use Consolidare\MergePatterns\Right;
 use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\RecordFields\Field;
 
 class MergeStrategyFactory
 {

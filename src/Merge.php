@@ -9,28 +9,24 @@ use Consolidare\Record\RecordFactory;
 
 class Merge
 {
-    private $mergeable = [];
+    private $mergeables = [];
 
     public function data($input)
     {
         return $this->mergeable(MergeableFactory::create($input));
     }
 
-    public function mergeable(Mergeable $data)
+    public function mergeable(Mergeable $mergeable)
     {
-        $this->mergeable[] = $data;
+        $this->mergeables[] = $mergeable;
 
         return $this;
     }
 
     public function merge(MergeStrategy $strategy)
     {
-        return array_reduce($this->mergeable, function ($record, $data) use ($strategy) {
-            return RecordFactory::create(
-                $strategy,
-                $record,
-                $data
-            );
+        return array_reduce($this->mergeables, function ($record, $mergeable) use ($strategy) {
+            return RecordFactory::create($strategy, $record)->merge($mergeable);
         });
     }
 }
