@@ -2,35 +2,40 @@
 
 namespace Consolidare\Record;
 
-use Consolidare\Mergeable\Mergeable;
 use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\Mergeable\Mergeable;
+use Consolidare\RecordFields\Field;
+use Consolidare\RecordFields\RecordField;
 use Consolidare\Record\Exception\PropertyDoesNotExistException;
 use Consolidare\Record\Exception\RecordException;
 use Consolidare\Record\Records;
 
 class Record implements Records
 {
-    private $properties = [];
+    private $fields = [];
     private $previousRecord;
+    private $strategy;
 
-    public function __construct(MergeStrategy $strategy, Records $previousRecord, Mergeable $mergeable)
+    public function __construct(MergeStrategy $strategy, Records $previousRecord)
     {
-        $this->loadPreviousRecord($previousRecord);
-        $this->merge($strategy, $previousRecord, $mergeable);
+        $this->strategy = $strategy;
+        $this->previousRecord = $previousRecord;
+
+        $this->loadPreviousRecord();
     }
 
-    public function property($property)
+    public function field(RecordField $field)
     {
-        if (!isset($this->properties[$property])) {
+        if (!isset($this->fields[$field->name()])) {
             throw new PropertyDoesNotExistException();
         }
 
-        return $this->properties[$property];
+        return $this->fields[$field->name()];
     }
 
     public function retrieve()
     {
-        return $this->properties;
+        return $this->fields;
     }
 
     public function revert()
@@ -38,24 +43,24 @@ class Record implements Records
         return $this->previousRecord;
     }
 
-    private function loadPreviousRecord(Records $previousRecord)
+    public function merge(Mergeable $mergeable)
     {
-        $this->previousRecord = $previousRecord;
-        $this->properties = $previousRecord->retrieve();
-    }
-
-    private function merge(MergeStrategy $strategy, Records $previousRecord, Mergeable $mergeable)
-    {
-        foreach ($mergeable->retrieve() as $property => $value) {
+        foreach ($mergeable->retrieve() as $field) {
             try {
-                $this->properties[$property] = $strategy->merge(
-                    $property,
-                    $previousRecord->property($property),
-                    $value
+                $this->fields[$field->name()] = $this->strategy->merge(
+                    $this->previousRecord->field($field),
+                    $field
                 );
             } catch (RecordException $e) {
-                $this->properties[$property] = $value;
+                $this->fields[$field->name()] = $field;
             }
         }
+
+        return $this;
+    }
+
+    private function loadPreviousRecord()
+    {
+        $this->fields = $this->previousRecord->retrieve();
     }
 }

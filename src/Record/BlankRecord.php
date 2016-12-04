@@ -2,6 +2,7 @@
 
 namespace Consolidare\Record;
 
+use Consolidare\RecordFields\RecordField;
 use Consolidare\Record\Exception\CantRevertBackFurtherException;
 use Consolidare\Record\Exception\PropertyDoesNotExistException;
 
@@ -11,7 +12,7 @@ class BlankRecord implements Records
     {
     }
 
-    public function property($property)
+    public function field(RecordField $field)
     {
         throw new PropertyDoesNotExistException();
     }
