@@ -2,6 +2,7 @@
 
 namespace Consolidare\MergeStrategy;
 
+use Consolidare\MergePatterns\Exception\FieldMismatchException;
 use Consolidare\MergePatterns\MergePattern;
 use Consolidare\RecordFields\RecordField;
 
@@ -30,14 +31,16 @@ class MergeStrategy
         return $this;
     }
 
-    public function merge($field, $left, $right)
+    public function merge(RecordField $left, RecordField $right)
     {
-        if (isset($this->specific[$field])) {
-            $mergePattern = $this->specific[$field];
-            return $mergePattern($left, $right);
+        if ($left->name() !== $right->name()) {
+            throw new FieldMismatchException($left, $right);
         }
 
-        $mergePattern = $this->default;
-        return $mergePattern($left, $right);
+        if (isset($this->specific[$left->name()])) {
+            return $this->specific[$left->name()]->merge($left, $right);
+        }
+
+        return $this->default->merge($left, $right);
     }
 }

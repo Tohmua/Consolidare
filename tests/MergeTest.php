@@ -3,6 +3,7 @@
 use Consolidare\Merge;
 use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\MergeStrategy\MergeStrategyFactory;
+use Consolidare\RecordFields\RecordField;
 use Consolidare\Record\Record;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +38,17 @@ class MergeTest extends TestCase
         $merge->data(['name' => 'foo', 'email' => 'foo']);
         $record = $merge->merge(MergeStrategyFactory::basic());
 
-        $this->assertEquals(['name' => 'foo', 'email' => 'foo'], $record->retrieve());
+        $this->assertEquals(2, count($record->retrieve()));
+
+        $record = $record->retrieve();
+
+        $this->assertEquals('foo', $record['name']->value());
+        $this->assertTrue($record['name'] instanceof RecordField);
+        $this->assertEquals('name', $record['name']->name());
+
+        $this->assertEquals('foo', $record['email']->value());
+        $this->assertTrue($record['email'] instanceof RecordField);
+        $this->assertEquals('email', $record['email']->name());
     }
 
     public function testItMergesWhenGivenAMultipleValuesFromArray()
@@ -48,7 +59,17 @@ class MergeTest extends TestCase
               ->data(['name' => 'baz', 'email' => 'baz']);
         $record = $merge->merge(MergeStrategyFactory::basic());
 
-        $this->assertEquals(['name' => 'baz', 'email' => 'baz'], $record->retrieve());
+        $this->assertEquals(2, count($record->retrieve()));
+
+        $record = $record->retrieve();
+
+        $this->assertEquals('baz', $record['name']->value());
+        $this->assertTrue($record['name'] instanceof RecordField);
+        $this->assertEquals('name', $record['name']->name());
+
+        $this->assertEquals('baz', $record['email']->value());
+        $this->assertTrue($record['email'] instanceof RecordField);
+        $this->assertEquals('email', $record['email']->name());
     }
 
     public function testItKeepsAllValuesWhenGivenAMultipleValuesFromArray()
@@ -59,9 +80,26 @@ class MergeTest extends TestCase
               ->data(['name' => 'baz', 'email' => 'baz', 'address' => 'baz']);
         $record = $merge->merge(MergeStrategyFactory::basic());
 
-        $this->assertEquals(['name' => 'baz', 'email' => 'baz', 'surname' => 'foo', 'address' => 'baz'], $record->retrieve());
-    }
+        $this->assertEquals(4, count($record->retrieve()));
 
+        $record = $record->retrieve();
+
+        $this->assertEquals('baz', $record['name']->value());
+        $this->assertTrue($record['name'] instanceof RecordField);
+        $this->assertEquals('name', $record['name']->name());
+
+        $this->assertEquals('baz', $record['email']->value());
+        $this->assertTrue($record['email'] instanceof RecordField);
+        $this->assertEquals('email', $record['email']->name());
+
+        $this->assertEquals('foo', $record['surname']->value());
+        $this->assertTrue($record['surname'] instanceof RecordField);
+        $this->assertEquals('surname', $record['surname']->name());
+
+        $this->assertEquals('baz', $record['address']->value());
+        $this->assertTrue($record['address'] instanceof RecordField);
+        $this->assertEquals('address', $record['address']->name());
+    }
 
     public function testItMergesWhenGivenAMultipleValuesFromMultipleDataTypes()
     {
@@ -70,9 +108,22 @@ class MergeTest extends TestCase
               ->data('{"name": "bar", "address": "bar"}');
         $record = $merge->merge(MergeStrategyFactory::basic());
 
-        $this->assertEquals(['name' => 'bar', 'email' => 'foo', 'address' => 'bar'], $record->retrieve());
-    }
+        $this->assertEquals(3, count($record->retrieve()));
 
+        $record = $record->retrieve();
+
+        $this->assertEquals('bar', $record['name']->value());
+        $this->assertTrue($record['name'] instanceof RecordField);
+        $this->assertEquals('name', $record['name']->name());
+
+        $this->assertEquals('foo', $record['email']->value());
+        $this->assertTrue($record['email'] instanceof RecordField);
+        $this->assertEquals('email', $record['email']->name());
+
+        $this->assertEquals('bar', $record['address']->value());
+        $this->assertTrue($record['address'] instanceof RecordField);
+        $this->assertEquals('address', $record['address']->name());
+    }
 
     public function testItKeepsRevertsAMerge()
     {
@@ -83,6 +134,20 @@ class MergeTest extends TestCase
         $record = $merge->merge(MergeStrategyFactory::basic());
         $record = $record->revert();
 
-        $this->assertEquals(['name' => 'bar', 'email' => 'foo', 'surname' => 'foo'], $record->retrieve());
+        $this->assertEquals(3, count($record->retrieve()));
+
+        $record = $record->retrieve();
+
+        $this->assertEquals('bar', $record['name']->value());
+        $this->assertTrue($record['name'] instanceof RecordField);
+        $this->assertEquals('name', $record['name']->name());
+
+        $this->assertEquals('foo', $record['email']->value());
+        $this->assertTrue($record['email'] instanceof RecordField);
+        $this->assertEquals('email', $record['email']->name());
+
+        $this->assertEquals('foo', $record['surname']->value());
+        $this->assertTrue($record['surname'] instanceof RecordField);
+        $this->assertEquals('surname', $record['surname']->name());
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Consolidare\MergePatterns\Exception\FieldMismatchException;
 use Consolidare\MergePatterns\MergePattern;
 use Consolidare\MergeStrategy\MergeStrategy;
 use Consolidare\RecordFields\RecordField;
@@ -27,26 +28,23 @@ class MergeStrategyTest extends TestCase
     public function testItFollowsDefaultPattern()
     {
         $prophet = new Prophet();
-        $mergePattern = $prophet->prophesize(MergePattern::class);
-        $mergePattern->__invoke('foo', 'bar')->willReturn('bar');
 
-        $mergeStrategy = new MergeStrategy($mergePattern->reveal());
-        $this->assertTrue(
-            $mergeStrategy->merge('x', 'foo', 'bar') === 'bar'
-        );
-    }
+        $left = $prophet->prophesize(RecordField::class);
+        $left->name()->willReturn('x');
+        $left->value()->willReturn('foo');
 
-    public function testItFollowsNonDefaultPattern()
-    {
-        $prophet = new Prophet();
+        $right = $prophet->prophesize(RecordField::class);
+        $right->name()->willReturn('x');
+        $right->value()->willReturn('bar');
 
         $mergePattern = $prophet->prophesize(MergePattern::class);
-        $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
+        $mergePattern->merge($left->reveal(), $right->reveal())->willReturn($left->reveal());
 
         $mergeStrategy = new MergeStrategy($mergePattern->reveal());
 
-        $this->assertTrue(
-            $mergeStrategy->merge('x', 'foo', 'bar') === 'phil'
+        $this->assertEquals(
+            $left->reveal(),
+            $mergeStrategy->merge($left->reveal(), $right->reveal())
         );
     }
 
@@ -54,17 +52,25 @@ class MergeStrategyTest extends TestCase
     {
         $prophet = new Prophet();
 
+        $left = $prophet->prophesize(RecordField::class);
+        $left->name()->willReturn('x');
+        $left->value()->willReturn('foo');
+
+        $right = $prophet->prophesize(RecordField::class);
+        $right->name()->willReturn('x');
+        $right->value()->willReturn('bar');
+
         $mergePatternOld = $prophet->prophesize(MergePattern::class);
-        $mergePatternOld->__invoke('foo', 'bar')->willReturn('Tom');
 
         $mergePatternNew = $prophet->prophesize(MergePattern::class);
-        $mergePatternNew->__invoke('foo', 'bar')->willReturn('phil');
+        $mergePatternNew->merge($left->reveal(), $right->reveal())->willReturn($right->reveal());
 
         $mergeStrategy = new MergeStrategy($mergePatternOld->reveal());
         $mergeStrategy->defaultPattern($mergePatternNew->reveal());
 
-        $this->assertTrue(
-            $mergeStrategy->merge('x', 'foo', 'bar') === 'phil'
+        $this->assertEquals(
+            $right->reveal(),
+            $mergeStrategy->merge($left->reveal(), $right->reveal())
         );
     }
 
@@ -73,39 +79,48 @@ class MergeStrategyTest extends TestCase
         $prophet = new Prophet();
 
         $defaultMergePattern = $prophet->prophesize(MergePattern::class);
+
         $mergePattern = $prophet->prophesize(MergePattern::class);
-        $recordField = $prophet->prophesize(RecordField::class);
+        $field = $prophet->prophesize(RecordField::class);
 
         $mergeStrategy = new MergeStrategy($defaultMergePattern->reveal());
         $mergeStrategy->specific(
-            $recordField->reveal(),
+            $field->reveal(),
             $mergePattern->reveal()
         );
 
-        $this->assertTrue(get_class($mergeStrategy) === MergeStrategy::class);
+        $this->assertEquals(MergeStrategy::class, get_class($mergeStrategy));
     }
 
     public function testTheFieldSpecificStrategyIsNotUsedForOtherFields()
     {
         $prophet = new Prophet();
 
+        $left = $prophet->prophesize(RecordField::class);
+        $left->name()->willReturn('x');
+        $left->value()->willReturn('foo');
+
+        $right = $prophet->prophesize(RecordField::class);
+        $right->name()->willReturn('x');
+        $right->value()->willReturn('bar');
+
+        $field = $prophet->prophesize(RecordField::class);
+        $field->name()->willReturn('xyz');
+
         $defaultMergePattern = $prophet->prophesize(MergePattern::class);
-        $defaultMergePattern->__invoke('foo', 'bar')->willReturn('bar');
+        $defaultMergePattern->merge($left->reveal(), $right->reveal())->willReturn($left->reveal());
 
         $mergePattern = $prophet->prophesize(MergePattern::class);
-        $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
-
-        $recordField = $prophet->prophesize(RecordField::class);
-        $recordField->name()->willReturn('yyz');
 
         $mergeStrategy = new MergeStrategy($defaultMergePattern->reveal());
         $mergeStrategy->specific(
-            $recordField->reveal(),
+            $field->reveal(),
             $mergePattern->reveal()
         );
 
-        $this->assertTrue(
-            $mergeStrategy->merge('x', 'foo', 'bar') === 'bar'
+        $this->assertEquals(
+            $left->reveal(),
+            $mergeStrategy->merge($left->reveal(), $right->reveal())
         );
     }
 
@@ -113,22 +128,50 @@ class MergeStrategyTest extends TestCase
     {
         $prophet = new Prophet();
 
+        $left = $prophet->prophesize(RecordField::class);
+        $left->name()->willReturn('x');
+        $left->value()->willReturn('foo');
+
+        $right = $prophet->prophesize(RecordField::class);
+        $right->name()->willReturn('x');
+        $right->value()->willReturn('bar');
+
+        $field = $prophet->prophesize(RecordField::class);
+        $field->name()->willReturn('x');
+
         $defaultMergePattern = $prophet->prophesize(MergePattern::class);
 
         $mergePattern = $prophet->prophesize(MergePattern::class);
-        $mergePattern->__invoke('foo', 'bar')->willReturn('phil');
-
-        $recordField = $prophet->prophesize(RecordField::class);
-        $recordField->name()->willReturn('yyz');
+        $mergePattern->merge($left->reveal(), $right->reveal())->willReturn($left->reveal());
 
         $mergeStrategy = new MergeStrategy($defaultMergePattern->reveal());
         $mergeStrategy->specific(
-            $recordField->reveal(),
+            $field->reveal(),
             $mergePattern->reveal()
         );
 
-        $this->assertTrue(
-            $mergeStrategy->merge('yyz', 'foo', 'bar') === 'phil'
+        $this->assertEquals(
+            $left->reveal(),
+            $mergeStrategy->merge($left->reveal(), $right->reveal())
         );
+    }
+
+    public function testItThrowsAnExceptionIfFieldNamesDoNotMatch()
+    {
+        $this->setExpectedException(FieldMismatchException::class);
+
+        $prophet = new Prophet();
+
+        $left = $prophet->prophesize(RecordField::class);
+        $left->name()->willReturn('a');
+
+        $right = $prophet->prophesize(RecordField::class);
+        $right->name()->willReturn('b');
+
+        $mergePattern = $prophet->prophesize(MergePattern::class);
+
+        $mergeStrategy = new MergeStrategy($mergePattern->reveal());
+
+        $mergeStrategy->merge($left->reveal(), $right->reveal());
     }
 }
