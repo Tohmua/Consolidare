@@ -4,6 +4,7 @@ namespace Consolidare\Mergeable\Type;
 
 use Consolidare\Mergeable\Exception\InvalidJsonGivenException;
 use Consolidare\Mergeable\Mergeable;
+use Consolidare\RecordFields\Field;
 
 class MergeableJsonObject implements Mergeable
 {
@@ -17,9 +18,9 @@ class MergeableJsonObject implements Mergeable
             throw new InvalidJsonGivenException($data);
         }
 
-        foreach ($data as $property => $value) {
-            $this->data[$property] = $value;
-        }
+        array_walk($data, function ($value, $index) {
+            $this->data[$index] = new Field($index, $value);
+        });
     }
 
     public function retrieve()
