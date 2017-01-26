@@ -3,6 +3,7 @@
 namespace Consolidare;
 
 use Consolidare\MergeStrategy\MergeStrategy;
+use Consolidare\MergeStrategy\MergeStrategyFactory;
 use Consolidare\Mergeable\Mergeable;
 use Consolidare\Mergeable\MergeableFactory;
 use Consolidare\Record\RecordFactory;
@@ -23,8 +24,12 @@ class Merge
         return $this;
     }
 
-    public function merge(MergeStrategy $strategy)
+    public function merge(MergeStrategy $strategy = null)
     {
+        if (!$strategy) {
+            $strategy = MergeStrategyFactory::basic();
+        }
+
         return array_reduce($this->mergeables, function ($record, $mergeable) use ($strategy) {
             return RecordFactory::create($strategy, $record)->merge($mergeable);
         });

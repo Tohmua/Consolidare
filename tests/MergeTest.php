@@ -33,6 +33,15 @@ class MergeTest extends TestCase
         $this->assertTrue(get_class($record) === Record::class);
     }
 
+    public function testItUsesBasicMergeStrategyIfNoneIsGiven()
+    {
+        $merge = new Merge([]);
+        $merge->data(['name' => 'foo', 'email' => 'foo']);
+        $record = $merge->merge();
+
+        $this->assertTrue(get_class($record) === Record::class);
+    }
+
     public function testItMergesWhenGivenASingleValueFromArray()
     {
         $merge = new Merge([]);
@@ -171,4 +180,59 @@ class MergeTest extends TestCase
             'address' => 'baz',
         ], $array);
     }
+
+    public function testItMergesFromArrayConfig()
+    {
+        $merge = new Merge([]);
+        $merge->data(['name' => 'foo', 'email' => 'foo']);
+        $merge->data(['name' => 'bar', 'email' => 'bar']);
+
+        $strategy = MergeStrategyFactory::fromArray([
+            'fields' => [
+                'email' => Consolidare\MergePatterns\Left::class,
+            ],
+            'default' => Consolidare\MergePatterns\Right::class
+        ]);
+
+        $record = $merge->merge($strategy);
+
+        $this->assertEquals(['name' => 'bar', 'email' => 'foo'], $record->retrieve(new ToArray));
+    }
+
+    // public function testItMergesFromMultiDimensionArrayConfig()
+    // {
+    //     $merge = new Merge([]);
+
+    //     $merge->data([
+    //         'name' => 'foo',
+    //         'email' => 'foo',
+    //         'address' => [
+    //             'line1' => 'foo',
+    //             'line2' => 'foo',
+    //         ],
+    //     ]);
+    //     $merge->data([
+    //         'name' => 'bar',
+    //         'email' => 'bar',
+    //         'address' => [
+    //             'line1' => 'bar',
+    //             'line2' => 'bar',
+    //         ],
+    //     ]);
+
+    //     $record = $merge->merge(MergeStrategyFactory::fromArray([
+    //         'fields' => [
+    //             'email' => Consolidare\MergePatterns\Left::class,
+    //             'address' => MergeStrategyFactory::fromArray([
+    //                 'fields' => [
+    //                     'line1' => Consolidare\MergePatterns\Right::class,
+    //                 ],
+    //                 'default' => Consolidare\MergePatterns\Left::class
+    //             ])
+    //         ],
+    //         'default' => Consolidare\MergePatterns\Right::class
+    //     ]));
+
+    //     $this->assertEquals(['name' => 'bar', 'email' => 'foo'], $record->retrieve());
+    // }
 }
